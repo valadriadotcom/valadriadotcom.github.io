@@ -1,3 +1,3 @@
-# play.valadria.com
+# The Valadria Playground
 
-A place to play.
+Yoooooo let's get some fun game development stuff up here!
