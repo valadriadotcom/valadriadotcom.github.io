@@ -1,0 +1,232 @@
+@font-face {
+	font-family: Varial-Bold;
+	src: url(fonts/Varialbold-Bold.ttf);
+}
+
+body {
+	background-color: #fff;
+	color: #140C1C;
+	font-family: arial, sans-serif;
+	font-size: 16px;
+}
+
+body a {
+	color: #597DCE;
+}
+
+body a:hover {
+	color: #D27D2C;
+}
+
+.title {
+	font-family: Varial-Bold, arial, sans-serif;
+	font-size: 500%;
+	user-select: none;
+	text-align: center;
+	margin-bottom: 20px;
+	min-height: 38px;
+	cursor: pointer;
+}
+
+.title label {
+	cursor: pointer;
+}
+
+.title input {
+	display: none;
+	background: transparent;
+	border: 0px;
+	color: #ddd;
+	font-size: 38px;
+}
+
+.title input:focus {
+	background: #666;
+}
+
+.main-content {
+	display: flex;
+	flex-flow: row;
+}
+
+.tierlist {
+	width: 80%;
+}
+
+.tierlist span {
+	min-width: 100px;
+	min-height: 100px;
+	display: flex;
+	align-items: center;
+	flex-flow: row;
+	font-family: Varial-Bold, arial, sans-serif;
+	font-size: 300%;
+	border: 0;
+	padding: 0;
+}
+
+.tierlist div.row {
+	border: 0px solid #140C1C;
+	border-top-width: 4px;
+	border-right-width: 4px;
+	border-left-width: 4px;
+	display: flex;
+	user-select: none;
+}
+
+.tierlist div:last-child {
+	border-bottom-width: 4px !important;
+}
+
+.tierlist div.row:hover {
+	background-color: #E1E5E8;
+}
+
+.tierlist div.row.drag-entered {
+	background-color: #C2CAD0;
+}
+
+span.header {
+	justify-content: center;
+	align-self: stretch;
+	/* cursor: pointer; */
+	border-right: 4px solid #140C1C;
+	text-align: center;
+}
+
+/*
+span.header label {
+	cursor: pointer;
+}
+*/
+
+span.header em {
+	font-style: normal;
+	font-size: 40%;
+}
+
+span.header input[type=text] {
+	display: none;
+	height: 50px;
+	font-size: 30px;
+	text-align: center;
+}
+
+span.items {
+	display: flex;
+	flex-wrap: wrap;
+	flex-grow: 1;
+	justify-content: left;
+	pointer-events: none;
+	height: fit-content;
+}
+
+span.item {
+	pointer-events: auto;
+}
+
+.images {
+	display: flex;
+	border: 4px solid #140C1C;
+	height: 200px;
+	overflow-y: auto;
+	margin-top: 15px;
+	flex-wrap: wrap;
+	flex-grow: 1;
+	width: 100%;
+	align-content: flex-start;
+}
+
+.images.drag-entered {
+	background-color: #888;
+}
+
+img.draggable {
+	cursor: grab;
+	width: 100px;
+	height: 100px;
+}
+
+.button:hover {
+	scale: 105%;
+}
+
+img.draggable:hover {
+	filter: brightness(1.5);
+	scale: 110%;
+}
+
+img.draggable.dragged, .button:active {
+	filter: brightness(0.5);
+}
+
+.button img {
+	user-select: none;
+}
+
+.bottom-container {
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	width: 325px;
+	margin-left: 15px;
+}
+
+.bottom-container input {
+	border: 0;
+	padding: 0;
+	display: none;
+}
+
+.bottom-container > div {
+	margin: 0;
+}
+
+.button {
+	/* border: 1px solid #666; */
+	height: 100px;
+}
+
+.row-buttons {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	justify-content: space-evenly;
+	opacity: 0.2;
+	transition: 200ms linear;
+}
+
+.row-buttons:hover {
+	opacity: 1;
+	transition: 200ms linear;
+}
+
+.buttons-container {
+	display: flex;
+	flex-wrap: wrap;
+	width: 300px;
+}
+
+.gh-link {
+	position: absolute;
+	top: 5px;
+	color: #ccc;
+	text-decoration: none;
+}
+
+#trash {
+	position: absolute;
+	bottom: 5px;
+	right: 5px;
+	height: 80px;
+	opacity: 0.4;
+}
+
+#trash:hover {
+	opacity: 1;
+}
+
+footer {
+	margin-top: 1em;
+	text-align: center;
+}

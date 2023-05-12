@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" lang="en">
+		<!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+		<title>Game Dev Difficulty Tiers by Matt Hackett</title>
+		<link rel="icon" href="/favicon.ico">
+		<link rel="stylesheet" href="tiers.css">
+		<meta name="author" content="Matt Hackett">
+		<meta name="description" content="Show your game dev expertise by ranking how you feel about certain types of dev work.">
+		<meta property="og:title" content="Game Dev Difficulty Tiers by Matt Hackett">
+		<meta property="og:type" content="website">
+		<meta property="og:description" content="Show your game dev expertise by ranking how you feel about certain types of dev work.">
+		<meta property="og:image" content="https://pbs.twimg.com/media/FqCduwnaAAEq-OM?format=jpg&name=small">
+		<meta name="twitter:title" content="Game Dev Difficulty Tiers by Matt Hackett">
+		<meta name="twitter:description" content="Show your game dev expertise by ranking how you feel about certain types of dev work.">
+		<meta name="twitter:site" content="@richtaur">
+		<meta name="twitter:card" content="summary">
+		<meta name="twitter:image" content="https://pbs.twimg.com/media/FqCduwnaAAEq-OM?format=jpg&name=small">
+		<script src="DragDropTouch.js" async></script>
+		<script src="tiers.js" async></script>
+	</head>
+	<body>
+		<div class="title">
+			<label class="title-label" for="title-input">GAME DEV DIFFICULTY TIERS</label>
+			<input type="text" id="title-input">
+		</div>
+
+		<section class="main-content">
+			<div class="tierlist">
+			</div>
+			<div class="bottom-container">
+				<div class="buttons-container">
+					<!--
+					<div class="button">
+						<label for="load-img-input">
+							<img src='images/plus.png' title='Add images'/>
+						</label>
+						<input id='load-img-input' type='file' accept='image/*' multiple/>
+					</div>
+					-->
+					<div class="button" id="randomize">
+						<label for="randomize">
+							<img src="images/ui/ui-randomize.png" title="Randomize items">
+						</label>
+					</div>
+					<div class="button">
+						<label for="reset-list-input">
+							<img src="images/ui/ui-reset.png" title="Reset list">
+						</label>
+						<input id="reset-list-input" type="button">
+					</div>
+					<div class="button" id="share">
+						<label for="share">
+							<img src="images/ui/ui-share.png" title="Share list">
+						</label>
+					</div>
+					<!--
+					<div class="button">
+						<label for="export-input">
+							<img src="images/export.png" title="Export">
+						</label>
+						<input id="export-input" type="button">
+					</div>
+					<div class="button">
+						<label for="import-input">
+							<img src="images/import.png" title="Import">
+						</label>
+						<input id="import-input" type="file" accept=".json" multiple>
+					</div>
+					-->
+				</div>
+				<section class="images"></section>
+			</div>
+		</section>
+		<!-- <img id="trash" src="images/trash_bin.png" title="Delete image (drag it over here)"></img> -->
+		<footer>
+			<div>
+				<a href="https://www.amazon.com/How-Make-Video-Game-Yourself/dp/1736576208/">
+					<img alt="How to Make a Video Game All By Yourself" src="images/ui/htmavgaby_cta.png">
+				</a>
+			</div>
+			v0.2 by
+			<a href="https://twitter.com/richtaur">Matt Hackett</a>, author of 
+			<a href="https://www.valadria.com/how-to-make-a-video-game-all-by-yourself/">How to Make a Video Game All By Yourself</a>
+			&bull;
+			<a href="https://www.amazon.com/How-Make-Video-Game-Yourself/dp/1736576208/">Amazon</a>
+			&bull;
+			<a href="https://valadria.itch.io/how-to-make-a-video-game-all-by-yourself">Itch</a>
+		</footer>
+	</body>
+</html>
