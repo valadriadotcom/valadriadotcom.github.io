@@ -2,7 +2,9 @@
 
 const BLACK = "#140C1C";
 const SILVER = "#8595A1";
-const URL = "https://play.valadria.com/game-dev-difficulty-tiers/";
+const URL = "https://play.valadria.com/game-dev-tiers/";
+// const URL_SHORT = "play.valadria.com/game-dev-tiers";
+const URL_SHORT = "play.valadria.com";
 const MAX_NAME_LEN = 256;
 const TIERS = [{
 	label: "S",
@@ -181,7 +183,7 @@ window.addEventListener("load", () => {
 			});
 			rows.push(row);
 		});
-		let tweetText = `Show me your Game Dev Difficulty Tiers: ${URL} via @richtaur`;
+		let tweetText = `Show me your Game Dev Tiers: ${URL} via @richtaur`;
 		if (itemCount > 0) {
 			const rowStrings = [];
 			rows.forEach((row) => {
@@ -189,7 +191,7 @@ window.addEventListener("load", () => {
 			});
 			const vars = rowStrings.join(".");
 			suffix = encodeURIComponent(`?tiers=${vars}`);
-			tweetText = `Here are MY Game Dev Difficulty Tiers: ${URL}${suffix} via @richtaur`;
+			tweetText = `Here are MY Game Dev Tiers: ${URL}${suffix} via @richtaur`;
 		} else {
 			console.log("Nothing to share!");
 		}
@@ -263,7 +265,7 @@ window.addEventListener("load", () => {
 
 		// Subtitle
 		const subtitleFontSize = (titleFontSize / 2);
-		const subtitleString = "play.valadria.com";
+		const subtitleString = URL_SHORT;
 		context.fillStyle = SILVER;
 		context.font = `${titleFontSize / 2}px Varial-Bold`;
 		const subtitleWidth = context.measureText(subtitleString).width;
