@@ -217,14 +217,6 @@ window.addEventListener("load", () => {
 		// Title
 		let title_label = document.querySelector(".title-label");
 
-		/*
-		- draw background color
-		- draw chrome lines
-		- draw tier header labels (S, A, B, etc.)
-		- draw images in their tiers
-		- draw call to action / book ad
-		*/
-
 		// Render ...
 
 		// Set canvas dimensions
@@ -239,7 +231,19 @@ window.addEventListener("load", () => {
 		context.fillRect(0, 0, width, height);
 
 		// Title
-		console.log(title_label.innerHTML);
+		const titleString = title_label.innerHTML;
+		context.fillStyle = "#000";
+		context.font = "48px serif";
+		context.fillText(titleString, 50, 50);
+		console.log("render", titleString);
+
+		/*
+		- draw chrome lines
+		- draw tier header labels (S, A, B, etc.)
+		- draw images in their tiers
+		- draw call to action / book ad
+		- footer: valadria.com @richtaur
+		*/
 
 		// CTA
 		const ctaImage = document.querySelector("#cta");

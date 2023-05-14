@@ -2,7 +2,8 @@
 
 + tiers
 	+ implement download image
-		+ generate an image from the tiers data using canvas
+		- generate an image from the tiers data using canvas
+		- use my font
 		- trigger download instead of opening a tab?
 		- if you haven't selected anything, add a message about how this person has no opinion
 			- maybe force mind in there lol
