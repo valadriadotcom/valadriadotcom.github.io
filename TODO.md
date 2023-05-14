@@ -1,4 +1,3 @@
 # TODO
 
-+ tiers
-	- tinypng
+- nothing! have a nice day :)
