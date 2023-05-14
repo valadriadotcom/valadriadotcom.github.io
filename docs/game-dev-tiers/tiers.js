@@ -5,6 +5,7 @@ const SILVER = "#8595A1";
 const URL = "https://play.valadria.com/game-dev-tiers/";
 // const URL_SHORT = "play.valadria.com/game-dev-tiers";
 const URL_SHORT = "play.valadria.com";
+const ROW_SEPARATOR = "-";
 const MAX_NAME_LEN = 256;
 const TIERS = [{
 	label: "S",
@@ -189,7 +190,7 @@ window.addEventListener("load", () => {
 			rows.forEach((row) => {
 				rowStrings.push(row.join(","));
 			});
-			const vars = rowStrings.join(".");
+			const vars = rowStrings.join(ROW_SEPARATOR);
 			suffix = encodeURIComponent(`?tiers=${vars}`);
 			tweetText = `Here are MY Game Dev Tiers: ${URL}${suffix} via @richtaur`;
 		} else {
@@ -337,17 +338,21 @@ window.addEventListener("load", () => {
 		context.drawImage(ctaImage, ctaX, ctaY);
 
 		// Footer ...
-		/*
-		const footerSize = 20;
+		const footerFontSize = 24;
+		const footerY = (canvas.height - padding);
 		context.fillStyle = SILVER;
+		context.font = `${footerFontSize}px Varial-Bold`;
 
 		// valadria.com
 		const footerLeftString = "valadria.com";
-		context.font = `${titleFontSize}px Varial-Bold`;
-		const titleWidth = context.measureText(titleString).width;
-		const titleX = (halfCanvasWidth - (titleWidth / 2));
-		context.fillText(titleString, titleX, titleFontSize);
-		*/
+		const footerLeftX = padding;
+		context.fillText(footerLeftString, footerLeftX, footerY);
+
+		// @richtaur
+		const footerRightString = "@richtaur";
+		const footerRightStringWidth = context.measureText(footerRightString).width;
+		const footerRightX = (canvas.width - footerRightStringWidth - padding);
+		context.fillText(footerRightString, footerRightX, footerY);
 
 		downloadCanvas(canvas);
 
@@ -430,7 +435,7 @@ function loadGetVars () {
 	if (tiers == null) { return; }
 
 	// Try to apply the get var values
-	const rows = tiers.split(".");
+	const rows = tiers.split(ROW_SEPARATOR);
 	rows.forEach((row, rowIndex) => {
 		const imageIndexes = row.split(",");
 		imageIndexes.forEach((imageIndex) => {
