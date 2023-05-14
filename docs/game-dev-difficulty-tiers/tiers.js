@@ -210,25 +210,53 @@ window.addEventListener("load", () => {
 	}
 
 	document.getElementById("download").addEventListener("click", () => {
-		// Draw the game canvas to a buffer canvas so we can scale it up
+		// Create a canvas on which to draw the image
 		const canvas = document.createElement("canvas");
 		const context = canvas.getContext("2d");
-		const width = 600;
-		const height = 400;
+
+		// Title
+		let title_label = document.querySelector(".title-label");
+
+		/*
+		- draw background color
+		- draw chrome lines
+		- draw tier header labels (S, A, B, etc.)
+		- draw images in their tiers
+		- draw call to action / book ad
+		*/
+
+		// Render ...
+
+		// Set canvas dimensions
+		const padding = 20;
+		const width = 800;
+		const height = 800;
 		canvas.width = width;
 		canvas.height = height;
-		// context.imageSmoothingEnabled = false; // Note: this must come after dimensions
-		context.fillStyle = "red";
+
+		// Background
+		context.fillStyle = "gray"; // "#fff";
 		context.fillRect(0, 0, width, height);
+
+		// Title
+		console.log(title_label.innerHTML);
+
+		// CTA
+		const ctaImage = document.querySelector("#cta");
+		const ctaX = ((canvas.width / 2) - (ctaImage.width / 2));
+		const ctaY = (canvas.height - padding) - (ctaImage.height);
+		console.log(ctaImage.width, ctaImage.height);
+		context.drawImage(ctaImage, ctaX, ctaY);
 		/*
 		context.drawImage(
-			canvas,
+			ctaImage, 0, 0
 			0, 0, canvas.width, canvas.height,
 			0, 0, bufferCanvas.width, bufferCanvas.height
 		);
 		*/
 
-		// Open a new window containing the scaled-up canvas image
+		// Open a new window containing the image
+		// return;
 		const dataURL = canvas.toDataURL("image/png");
 		const openedWindow = window.open();
 		try {
