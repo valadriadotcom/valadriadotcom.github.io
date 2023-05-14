@@ -114,7 +114,7 @@ window.addEventListener("load", () => {
 
 	headers_orig_min_width = all_headers[0][0].clientWidth;
 
-	make_accept_drop(document.querySelector('.images'));
+	make_accept_drop(document.querySelector(".images"));
 
 	bind_title_events();
 
@@ -132,7 +132,6 @@ window.addEventListener("load", () => {
 			reader.readAsDataURL(file);
 		}
 	});
-	*/
 
 	document.getElementById("randomize").addEventListener("click", () => {
 		if (unsaved_changes) {
@@ -151,6 +150,7 @@ window.addEventListener("load", () => {
 			imagesNode.appendChild(imageNode);
 		});
 	});
+	*/
 
 	document.getElementById("reset-list-input").addEventListener("click", () => {
 		if (!unsaved_changes) { return; }
@@ -185,7 +185,7 @@ window.addEventListener("load", () => {
 			rows.forEach((row) => {
 				rowStrings.push(row.join(","));
 			});
-			const vars = rowStrings.join("|");
+			const vars = rowStrings.join(".");
 			suffix = encodeURIComponent(`?tiers=${vars}`);
 			tweetText = `Here are MY Game Dev Difficulty Tiers: ${URL}${suffix} via @richtaur`;
 		} else {
@@ -289,19 +289,53 @@ window.addEventListener("load", () => {
 });
 
 function loadGetVars () {
+	// Validate the get vars
 	const queryString = window.location.search;
 	const urlParams = new URLSearchParams(queryString);
 	const tiers = urlParams.get("tiers")
 	console.log("tiers", tiers);
 	if (tiers == null) { return; }
 
-	const rows = tiers.split("|");
+	// Try to apply the get var values
+	const rows = tiers.split(".");
 	console.log("rows", rows);
-	rows.forEach((row) => {
+	rows.forEach((row, rowIndex) => {
+		console.log("rowIndex", rowIndex);
+
 		const imageIndexes = row.split(",");
 		imageIndexes.forEach((imageIndex) => {
+			dragged_image = null;
 			console.log("imageIndex", imageIndex);
 
+			// Validate the image index
+			const imageIndexNumber = parseInt(imageIndex);
+			if (isNaN(imageIndexNumber)) { return; }
+
+			console.log("imageIndexNumber", imageIndexNumber);
+
+			// Validate the image
+			const defaultImage = DEFAULT_IMAGES[imageIndexNumber];
+			console.log(`${imageIndexNumber} -> ${defaultImage}`, defaultImage);
+			if (!defaultImage) { return; }
+
+			// Search for the sidebar image
+			// let items_container = elem.querySelector(".items");
+			untiered_images.querySelectorAll("img").forEach((imageNode) => {
+				if (dragged_image) { return; }
+
+				if (imageNode.src.includes(defaultImage)) {
+					console.log("FOUND", imageNode.src);
+					dragged_image = imageNode;
+				}
+			});
+
+			// Add image to tier
+			if (dragged_image) {
+				const rowNode = tierlist_div.querySelectorAll(".row")[rowIndex];
+				console.log(`dropping rowIndex, imageIndex: ${rowIndex} -> ${imageIndexNumber}`);
+				dropDraggedImage(rowNode);
+			}
+			console.log("----------\n");
 		});
 	});
 }
@@ -358,9 +392,8 @@ function save_tierlist(filename) {
 
 	save(filename, JSON.stringify(serialized_tierlist));
 }
-*/
 
-function load_tierlist(serialized_tierlist) {
+function load_tierlist (serialized_tierlist) {
 	document.querySelector('.title-label').innerText = serialized_tierlist.title;
 	for (let idx in serialized_tierlist.rows) {
 		let ser_row = serialized_tierlist.rows[idx];
@@ -391,6 +424,7 @@ function load_tierlist(serialized_tierlist) {
 
 	unsaved_changes = false;
 }
+*/
 
 function end_drag (evt) {
 	dragged_image?.classList.remove("dragged");
@@ -426,27 +460,31 @@ function make_accept_drop (elem) {
 
 		if (!dragged_image) { return; }
 
-		let dragged_image_parent = dragged_image.parentNode;
-		if (dragged_image_parent.tagName.toUpperCase() === "SPAN" &&
-				dragged_image_parent.classList.contains("item")) {
-			// We were already in a tier
-			let containing_tr = dragged_image_parent.parentNode;
-			containing_tr.removeChild(dragged_image_parent);
-		} else {
-			dragged_image_parent.removeChild(dragged_image);
-		}
-		let td = document.createElement("span");
-		td.classList.add("item");
-		td.appendChild(dragged_image);
-		let items_container = elem.querySelector(".items");
-		if (!items_container) {
-			// Quite lazy hack for <section class='images'>
-			items_container = elem;
-		}
-		items_container.appendChild(td);
+		dropDraggedImage(elem);
 
 		unsaved_changes = true;
 	});
+}
+
+function dropDraggedImage (elem) {
+	let dragged_image_parent = dragged_image.parentNode;
+	if (dragged_image_parent.tagName.toUpperCase() === "SPAN" &&
+			dragged_image_parent.classList.contains("item")) {
+		// We were already in a tier
+		let containing_tr = dragged_image_parent.parentNode;
+		containing_tr.removeChild(dragged_image_parent);
+	} else {
+		dragged_image_parent.removeChild(dragged_image);
+	}
+	let td = document.createElement("span");
+	td.classList.add("item");
+	td.appendChild(dragged_image);
+	let items_container = elem.querySelector(".items");
+	if (!items_container) {
+		// Quite lazy hack for <section class='images'>
+		items_container = elem;
+	}
+	items_container.appendChild(td);
 }
 
 function enable_edit_on_click (container, input, label) {
@@ -468,7 +506,7 @@ function enable_edit_on_click (container, input, label) {
 	});
 }
 
-function bind_title_events() {
+function bind_title_events () {
 	let title_label = document.querySelector(".title-label");
 	let title_input = document.getElementById("title-input");
 	let title = document.querySelector(".title");
@@ -588,11 +626,13 @@ function create_label_input (row, row_idx, row_name, subtitle) {
 	// enable_edit_on_click(header, input, label);
 }
 
-function rm_row(idx) {
+/*
+function rm_row (idx) {
 	let row = tierlist_div.children[idx];
 	reset_row(row);
 	tierlist_div.removeChild(row);
 }
+*/
 
 function recompute_header_colors () {
 	tierlist_div.querySelectorAll(".row").forEach((row, row_idx) => {
