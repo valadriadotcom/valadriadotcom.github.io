@@ -212,6 +212,22 @@ window.addEventListener("load", () => {
 	}
 
 	document.getElementById("download").addEventListener("click", () => {
+		// Compile list of user tiers
+		const rows = [];
+		let hasItems = false;
+		tierlist_div.querySelectorAll(".row").forEach(function (rowNode) {
+			const rowImages = [];
+			rowNode.querySelectorAll("span.item img").forEach((item) => {
+				rowImages.push(item);
+				hasItems = true;
+			});
+			rows.push(rowImages);
+		});
+		if (!hasItems) {
+			alert("Nothing to download!\nDrag images into the tiers.");
+			return;
+		}
+
 		// Create a canvas on which to draw the image
 		const canvas = document.createElement("canvas");
 		const context = canvas.getContext("2d");
@@ -255,21 +271,6 @@ window.addEventListener("load", () => {
 		const subtitleY = (titleFontSize + subtitleFontSize);
 		context.fillText(subtitleString, subtitleX, subtitleY);
 
-		// Compile list of user tiers
-		const rows = [];
-		let hasItems = false;
-		tierlist_div.querySelectorAll(".row").forEach(function (rowNode) {
-			const rowImages = [];
-			rowNode.querySelectorAll("span.item img").forEach((item) => {
-				rowImages.push(item);
-				hasItems = true;
-			});
-			rows.push(rowImages);
-		});
-		if (!hasItems) {
-			console.log("you got NOTHING");
-		}
-
 		// Chrome OL
 		let x = padding;
 		let y = 110;
@@ -308,11 +309,19 @@ window.addEventListener("load", () => {
 			// Images
 			const row = rows[tierIndex];
 			if (row) {
-				console.log("i see a row here", row);
+				const maxWidth = (width - (padding * 2) - columnWidth);
+				const rowWidth = (columnWidth * row.length);
+				let rowScale = 1;
+				if (rowWidth > maxWidth) {
+					rowScale = (maxWidth / rowWidth);
+				}
 				row.forEach((image, imageIndex) => {
-					console.log("image", image);
-					const imageX = ((x + columnWidth) + (imageIndex * columnWidth));
-					context.drawImage(image, imageX, y);
+					const imageSize = (columnWidth * rowScale);
+					const imageX = ((x + columnWidth) + (imageIndex * imageSize));
+					context.drawImage(
+						image, 0, 0, image.width, image.height,
+						imageX, y, imageSize, imageSize
+					);
 				});
 			}
 
@@ -324,14 +333,6 @@ window.addEventListener("load", () => {
 		const ctaX = (halfCanvasWidth - (ctaImage.width / 2));
 		const ctaY = (canvas.height - padding) - (ctaImage.height);
 		context.drawImage(ctaImage, ctaX, ctaY);
-		/*
-		const ctaScale = 0.75;
-		context.drawImage(
-			ctaImage,
-			0, 0, ctaImage.width, ctaImage.height,
-			ctaX, ctaY, (ctaImage.width * ctaScale), (ctaImage.height * ctaScale)
-		);
-		*/
 
 		// Footer ...
 		/*
