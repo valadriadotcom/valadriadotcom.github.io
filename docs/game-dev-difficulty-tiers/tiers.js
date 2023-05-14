@@ -165,30 +165,27 @@ window.addEventListener("load", () => {
 		const rows = [];
 		let itemCount = 0;
 		let suffix = "";
-		tierlist_div.querySelectorAll(".row").forEach(function (row) {
-			const rowData = [];
-			row.querySelectorAll("span.item").forEach((item) => {
+		tierlist_div.querySelectorAll(".row").forEach(function (rowNode) {
+			const row = [];
+			rowNode.querySelectorAll("span.item").forEach((item) => {
 				for (let i = 0; i < item.children.length; ++i) {
 					let img = item.children[i];
 					const imageIndex = imageSourceToIndex(img.src);
 					if (imageIndex > -1) {
 						itemCount++;
-						rowData.push(imageIndex);
+						row.push(imageIndex);
 					}
 				}
 			});
-			rows.push(rowData);
+			rows.push(row);
 		});
 		let tweetText = `Show me your Game Dev Difficulty Tiers: ${URL} via @richtaur`;
 		if (itemCount > 0) {
-			let vars = "";
+			const rowStrings = [];
 			rows.forEach((row) => {
-				row.forEach((rowData) => {
-					vars += `${rowData},`;
-				});
-				vars += "|";
+				rowStrings.push(row.join(","));
 			});
-			console.log("rows", rows);
+			const vars = rowStrings.join("|");
 			suffix = encodeURIComponent(`?tiers=${vars}`);
 			tweetText = `Here are MY Game Dev Difficulty Tiers: ${URL}${suffix} via @richtaur`;
 		} else {
@@ -197,7 +194,7 @@ window.addEventListener("load", () => {
 
 		// Open a new window with the URL
 		const url = `https://twitter.com/intent/tweet?text=${tweetText}`;
-		console.log(url);
+		// console.log(url);
 		window.open(url);
 	});
 
@@ -213,8 +210,6 @@ window.addEventListener("load", () => {
 	}
 
 	document.getElementById("download").addEventListener("click", () => {
-		console.log("download");
-
 		// Draw the game canvas to a buffer canvas so we can scale it up
 		const canvas = document.createElement("canvas");
 		const context = canvas.getContext("2d");
@@ -289,7 +284,27 @@ window.addEventListener("load", () => {
 		const imageNode = create_img_with_src(defaultImage);
 		imagesNode.appendChild(imageNode);
 	});
+
+	loadGetVars();
 });
+
+function loadGetVars () {
+	const queryString = window.location.search;
+	const urlParams = new URLSearchParams(queryString);
+	const tiers = urlParams.get("tiers")
+	console.log("tiers", tiers);
+	if (tiers == null) { return; }
+
+	const rows = tiers.split("|");
+	console.log("rows", rows);
+	rows.forEach((row) => {
+		const imageIndexes = row.split(",");
+		imageIndexes.forEach((imageIndex) => {
+			console.log("imageIndex", imageIndex);
+
+		});
+	});
+}
 
 function create_img_with_src (src) {
 	let img = document.createElement("img");
@@ -305,6 +320,7 @@ function create_img_with_src (src) {
 	return img;
 }
 
+/*
 function save (filename, text) {
 	unsaved_changes = false;
 
@@ -342,6 +358,7 @@ function save_tierlist(filename) {
 
 	save(filename, JSON.stringify(serialized_tierlist));
 }
+*/
 
 function load_tierlist(serialized_tierlist) {
 	document.querySelector('.title-label').innerText = serialized_tierlist.title;
