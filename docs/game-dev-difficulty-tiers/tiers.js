@@ -79,8 +79,8 @@ let untiered_images;
 let tierlist_div;
 let dragged_image;
 
-function reset_row(row) {
-	row.querySelectorAll('span.item').forEach((item) => {
+function reset_row (row) {
+	row.querySelectorAll("span.item").forEach((item) => {
 		for (let i = 0; i < item.children.length; ++i) {
 			let img = item.children[i];
 			item.removeChild(img);
@@ -92,9 +92,9 @@ function reset_row(row) {
 
 // Removes all rows from the tierlist, alongside their content.
 // Also empties the untiered images.
-function hard_reset_list() {
-	tierlist_div.innerHTML = '';
-	untiered_images.innerHTML = '';
+function hard_reset_list () {
+	tierlist_div.innerHTML = "";
+	untiered_images.innerHTML = "";
 }
 
 // Places back all the tierlist content into the untiered pool.
@@ -161,10 +161,86 @@ window.addEventListener("load", () => {
 	});
 
 	document.getElementById("share").addEventListener("click", () => {
-		const text = `Hey game devs, check out the Game Dev Difficulty Tiers: ${URL} via @richtaur`;
-		const url = `https://twitter.com/intent/tweet?text=${text}`;
-		// location.href = url;
+		// Try to compile get vars
+		const rows = [];
+		let itemCount = 0;
+		let suffix = "";
+		tierlist_div.querySelectorAll(".row").forEach(function (row) {
+			const rowData = [];
+			row.querySelectorAll("span.item").forEach((item) => {
+				for (let i = 0; i < item.children.length; ++i) {
+					let img = item.children[i];
+					const imageIndex = imageSourceToIndex(img.src);
+					if (imageIndex > -1) {
+						itemCount++;
+						rowData.push(imageIndex);
+					}
+				}
+			});
+			rows.push(rowData);
+		});
+		let tweetText = `Show me your Game Dev Difficulty Tiers: ${URL} via @richtaur`;
+		if (itemCount > 0) {
+			let vars = "";
+			rows.forEach((row) => {
+				row.forEach((rowData) => {
+					vars += `${rowData},`;
+				});
+				vars += "|";
+			});
+			console.log("rows", rows);
+			suffix = encodeURIComponent(`?tiers=${vars}`);
+			tweetText = `Here are MY Game Dev Difficulty Tiers: ${URL}${suffix} via @richtaur`;
+		} else {
+			console.log("Nothing to share!");
+		}
+
+		// Open a new window with the URL
+		const url = `https://twitter.com/intent/tweet?text=${tweetText}`;
+		console.log(url);
 		window.open(url);
+	});
+
+	function imageSourceToIndex (imageSource) {
+		for (let i = 0; i < DEFAULT_IMAGES.length; i++) {
+			const defaultImage = DEFAULT_IMAGES[i];
+			if (imageSource.includes(defaultImage)) {
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
+	document.getElementById("download").addEventListener("click", () => {
+		console.log("download");
+
+		// Draw the game canvas to a buffer canvas so we can scale it up
+		const canvas = document.createElement("canvas");
+		const context = canvas.getContext("2d");
+		const width = 600;
+		const height = 400;
+		canvas.width = width;
+		canvas.height = height;
+		// context.imageSmoothingEnabled = false; // Note: this must come after dimensions
+		context.fillStyle = "red";
+		context.fillRect(0, 0, width, height);
+		/*
+		context.drawImage(
+			canvas,
+			0, 0, canvas.width, canvas.height,
+			0, 0, bufferCanvas.width, bufferCanvas.height
+		);
+		*/
+
+		// Open a new window containing the scaled-up canvas image
+		const dataURL = canvas.toDataURL("image/png");
+		const openedWindow = window.open();
+		try {
+			openedWindow.document.write(`<img src="${dataURL}">`);
+		} catch (error) {
+			console.log(`[download error]`, error);
+		}
 	});
 
 	/*
