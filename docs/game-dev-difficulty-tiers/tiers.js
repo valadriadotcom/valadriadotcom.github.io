@@ -347,8 +347,10 @@ window.addEventListener("load", () => {
 		context.fillText(titleString, titleX, titleFontSize);
 		*/
 
+		downloadCanvas(canvas);
+
 		// Open a new window containing the image
-		// return;
+		/*
 		const dataURL = canvas.toDataURL("image/png");
 		const openedWindow = window.open();
 		try {
@@ -356,7 +358,17 @@ window.addEventListener("load", () => {
 		} catch (error) {
 			console.log(`[download error]`, error);
 		}
+		*/
 	});
+
+	async function downloadCanvas (canvas) {
+    const a = document.createElement("a");
+    a.href = await canvas.toDataURL("image/png");
+    a.download = "game-dev-tiers.png";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+	}
 
 	/*
 	document.getElementById('export-input').addEventListener('click', () => {
