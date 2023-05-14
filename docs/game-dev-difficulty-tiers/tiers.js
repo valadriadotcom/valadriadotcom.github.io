@@ -255,12 +255,27 @@ window.addEventListener("load", () => {
 		const subtitleY = (titleFontSize + subtitleFontSize);
 		context.fillText(subtitleString, subtitleX, subtitleY);
 
+		// Compile list of user tiers
+		const rows = [];
+		let hasItems = false;
+		tierlist_div.querySelectorAll(".row").forEach(function (rowNode) {
+			const rowImages = [];
+			rowNode.querySelectorAll("span.item img").forEach((item) => {
+				rowImages.push(item);
+				hasItems = true;
+			});
+			rows.push(rowImages);
+		});
+		if (!hasItems) {
+			console.log("you got NOTHING");
+		}
+
 		// Chrome OL
 		let x = padding;
 		let y = 110;
 		context.lineWidth = 4;
 		context.strokeStyle = BLACK;
-		TIERS.forEach((tier, index) => {
+		TIERS.forEach((tier, tierIndex) => {
 			// Column
 			context.fillStyle = tier.background;
 			context.fillRect(x, y, columnWidth, rowHeight);
@@ -291,14 +306,18 @@ window.addEventListener("load", () => {
 			context.strokeRect(x, y, rowWidth, rowHeight);
 
 			// Images
+			const row = rows[tierIndex];
+			if (row) {
+				console.log("i see a row here", row);
+				row.forEach((image, imageIndex) => {
+					console.log("image", image);
+					const imageX = ((x + columnWidth) + (imageIndex * columnWidth));
+					context.drawImage(image, imageX, y);
+				});
+			}
 
 			y += rowHeight;
 		});
-
-		/*
-		- draw images in their tiers
-		- footer: valadria.com @richtaur
-		*/
 
 		// CTA
 		const ctaImage = document.querySelector("#cta");
@@ -393,29 +412,21 @@ function loadGetVars () {
 	const queryString = window.location.search;
 	const urlParams = new URLSearchParams(queryString);
 	const tiers = urlParams.get("tiers")
-	console.log("tiers", tiers);
 	if (tiers == null) { return; }
 
 	// Try to apply the get var values
 	const rows = tiers.split(".");
-	console.log("rows", rows);
 	rows.forEach((row, rowIndex) => {
-		console.log("rowIndex", rowIndex);
-
 		const imageIndexes = row.split(",");
 		imageIndexes.forEach((imageIndex) => {
 			dragged_image = null;
-			console.log("imageIndex", imageIndex);
 
 			// Validate the image index
 			const imageIndexNumber = parseInt(imageIndex);
 			if (isNaN(imageIndexNumber)) { return; }
 
-			console.log("imageIndexNumber", imageIndexNumber);
-
 			// Validate the image
 			const defaultImage = DEFAULT_IMAGES[imageIndexNumber];
-			console.log(`${imageIndexNumber} -> ${defaultImage}`, defaultImage);
 			if (!defaultImage) { return; }
 
 			// Search for the sidebar image
@@ -424,7 +435,6 @@ function loadGetVars () {
 				if (dragged_image) { return; }
 
 				if (imageNode.src.includes(defaultImage)) {
-					console.log("FOUND", imageNode.src);
 					dragged_image = imageNode;
 				}
 			});
@@ -432,10 +442,8 @@ function loadGetVars () {
 			// Add image to tier
 			if (dragged_image) {
 				const rowNode = tierlist_div.querySelectorAll(".row")[rowIndex];
-				console.log(`dropping rowIndex, imageIndex: ${rowIndex} -> ${imageIndexNumber}`);
 				dropDraggedImage(rowNode);
 			}
-			console.log("----------\n");
 		});
 	});
 }
