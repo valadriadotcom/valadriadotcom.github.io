@@ -1,5 +1,7 @@
 "use strict";
 
+const BLACK = "#140C1C";
+const SILVER = "#8595A1";
 const URL = "https://play.valadria.com/game-dev-difficulty-tiers/";
 const MAX_NAME_LEN = 256;
 const TIERS = [{
@@ -237,7 +239,7 @@ window.addEventListener("load", () => {
 		// Title
 		const titleFontSize = 64;
 		const titleString = title_label.innerHTML;
-		context.fillStyle = "#000";
+		context.fillStyle = BLACK;
 		context.font = `${titleFontSize}px Varial-Bold`;
 		const titleWidth = context.measureText(titleString).width;
 		const titleX = (halfCanvasWidth - (titleWidth / 2));
@@ -246,7 +248,7 @@ window.addEventListener("load", () => {
 		// Subtitle
 		const subtitleFontSize = (titleFontSize / 2);
 		const subtitleString = "play.valadria.com";
-		context.fillStyle = "#8595A1";
+		context.fillStyle = SILVER;
 		context.font = `${titleFontSize / 2}px Varial-Bold`;
 		const subtitleWidth = context.measureText(subtitleString).width;
 		const subtitleX = (halfCanvasWidth - (subtitleWidth / 2));
@@ -257,26 +259,44 @@ window.addEventListener("load", () => {
 		let x = padding;
 		let y = 110;
 		context.lineWidth = 4;
-		context.strokeStyle = "#000";
+		context.strokeStyle = BLACK;
 		TIERS.forEach((tier, index) => {
 			// Column
 			context.fillStyle = tier.background;
 			context.fillRect(x, y, columnWidth, rowHeight);
 
+			context.fillStyle = BLACK;
+
 			// Label
+			const labelFontSize = 48;
+			const labelString = tier.label;
+			context.font = `${labelFontSize}px Varial-Bold`;
+			const labelWidth = context.measureText(labelString).width;
+			const labelX = (x + (columnWidth / 2) - (labelWidth / 2));
+			const labelY = (y + labelFontSize);
+			context.fillText(labelString, labelX, labelY);
+
+			// Label subtitle
+			const labelSubtitleFontSize = 20;
+			const labelSubtitleString = tier.subtitle;
+			context.fillStyle = BLACK;
+			context.font = `${labelSubtitleFontSize}px Varial-Bold`;
+			const labelSubtitleWidth = context.measureText(labelSubtitleString).width;
+			const labelSubtitleX = (x + (columnWidth / 2) - (labelSubtitleWidth / 2));
+			const labelSubtitleY = (y + labelFontSize + labelSubtitleFontSize);
+			context.fillText(labelSubtitleString, labelSubtitleX, labelSubtitleY);
 
 			// Row
 			context.strokeRect(x, y, columnWidth, rowHeight);
 			context.strokeRect(x, y, rowWidth, rowHeight);
 
+			// Images
+
 			y += rowHeight;
 		});
 
 		/*
-		- draw chrome lines
-		- draw tier header labels (S, A, B, etc.)
 		- draw images in their tiers
-		- draw call to action / book ad
 		- footer: valadria.com @richtaur
 		*/
 
@@ -292,6 +312,19 @@ window.addEventListener("load", () => {
 			0, 0, ctaImage.width, ctaImage.height,
 			ctaX, ctaY, (ctaImage.width * ctaScale), (ctaImage.height * ctaScale)
 		);
+		*/
+
+		// Footer ...
+		/*
+		const footerSize = 20;
+		context.fillStyle = SILVER;
+
+		// valadria.com
+		const footerLeftString = "valadria.com";
+		context.font = `${titleFontSize}px Varial-Bold`;
+		const titleWidth = context.measureText(titleString).width;
+		const titleX = (halfCanvasWidth - (titleWidth / 2));
+		context.fillText(titleString, titleX, titleFontSize);
 		*/
 
 		// Open a new window containing the image
