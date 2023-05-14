@@ -221,21 +221,56 @@ window.addEventListener("load", () => {
 
 		// Set canvas dimensions
 		const padding = 20;
-		const width = 800;
-		const height = 800;
+		const width = 1000;
+		const height = 1000;
+		const rowWidth = (width - (padding * 2));
+		const rowHeight = 100;
+		const columnWidth = 100;
+		const halfCanvasWidth = (width / 2);
 		canvas.width = width;
 		canvas.height = height;
 
 		// Background
-		context.fillStyle = "gray"; // "#fff";
+		context.fillStyle = "#fff";
 		context.fillRect(0, 0, width, height);
 
 		// Title
+		const titleFontSize = 64;
 		const titleString = title_label.innerHTML;
 		context.fillStyle = "#000";
-		context.font = "48px serif";
-		context.fillText(titleString, 50, 50);
-		console.log("render", titleString);
+		context.font = `${titleFontSize}px Varial-Bold`;
+		const titleWidth = context.measureText(titleString).width;
+		const titleX = (halfCanvasWidth - (titleWidth / 2));
+		context.fillText(titleString, titleX, titleFontSize);
+
+		// Subtitle
+		const subtitleFontSize = (titleFontSize / 2);
+		const subtitleString = "play.valadria.com";
+		context.fillStyle = "#8595A1";
+		context.font = `${titleFontSize / 2}px Varial-Bold`;
+		const subtitleWidth = context.measureText(subtitleString).width;
+		const subtitleX = (halfCanvasWidth - (subtitleWidth / 2));
+		const subtitleY = (titleFontSize + subtitleFontSize);
+		context.fillText(subtitleString, subtitleX, subtitleY);
+
+		// Chrome OL
+		let x = padding;
+		let y = 110;
+		context.lineWidth = 4;
+		context.strokeStyle = "#000";
+		TIERS.forEach((tier, index) => {
+			// Column
+			context.fillStyle = tier.background;
+			context.fillRect(x, y, columnWidth, rowHeight);
+
+			// Label
+
+			// Row
+			context.strokeRect(x, y, columnWidth, rowHeight);
+			context.strokeRect(x, y, rowWidth, rowHeight);
+
+			y += rowHeight;
+		});
 
 		/*
 		- draw chrome lines
@@ -247,15 +282,15 @@ window.addEventListener("load", () => {
 
 		// CTA
 		const ctaImage = document.querySelector("#cta");
-		const ctaX = ((canvas.width / 2) - (ctaImage.width / 2));
+		const ctaX = (halfCanvasWidth - (ctaImage.width / 2));
 		const ctaY = (canvas.height - padding) - (ctaImage.height);
-		console.log(ctaImage.width, ctaImage.height);
 		context.drawImage(ctaImage, ctaX, ctaY);
 		/*
+		const ctaScale = 0.75;
 		context.drawImage(
-			ctaImage, 0, 0
-			0, 0, canvas.width, canvas.height,
-			0, 0, bufferCanvas.width, bufferCanvas.height
+			ctaImage,
+			0, 0, ctaImage.width, ctaImage.height,
+			ctaX, ctaY, (ctaImage.width * ctaScale), (ctaImage.height * ctaScale)
 		);
 		*/
 
