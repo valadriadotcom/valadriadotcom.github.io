@@ -1,0 +1,11 @@
+body {
+	padding: 2em;
+}
+
+h1 {
+	margin-bottom: 2em;
+}
+
+.module p:last-child {
+	margin-bottom: 4em;
+}

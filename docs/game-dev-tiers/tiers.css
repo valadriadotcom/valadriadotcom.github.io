@@ -33,15 +33,16 @@ body a:hover {
 }
 
 .title input {
+	font-family: Varial-Bold, arial, sans-serif;
 	display: none;
 	background: transparent;
 	border: 0px;
-	color: #ddd;
+	/* color: #ddd; */
 	font-size: 38px;
 }
 
 .title input:focus {
-	background: #666;
+	/* background: #666; */
 }
 
 .main-content {
