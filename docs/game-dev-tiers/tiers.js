@@ -184,7 +184,7 @@ window.addEventListener("load", () => {
 			});
 			rows.push(row);
 		});
-		let tweetText = `Show me your Game Dev Tiers: ${URL} via @richtaur`;
+		let tweetText = `Show me your Game Dev Tiers: ${URL}`;
 		if (itemCount > 0) {
 			const rowStrings = [];
 			rows.forEach((row) => {
@@ -192,7 +192,7 @@ window.addEventListener("load", () => {
 			});
 			const vars = rowStrings.join(ROW_SEPARATOR);
 			suffix = encodeURIComponent(`?tiers=${vars}`);
-			tweetText = `Here are MY Game Dev Tiers: ${URL}${suffix} via @richtaur`;
+			tweetText = `Here are MY Game Dev Tiers: ${URL}${suffix}`;
 		} else {
 			console.log("Nothing to share!");
 		}
